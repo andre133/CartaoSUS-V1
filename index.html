@@ -1,127 +1,305 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gerador de Cartão SUS</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      padding: 30px;
-      text-align: center;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+    
+    body {
+      background: linear-gradient(135deg, #1a6fb0, #0d47a1);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #333;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      width: 100%;
+      max-width: 1000px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    header h1 {
+      color: #0d47a1;
+      margin-bottom: 10px;
+      font-size: 2.5rem;
+    }
+    
+    header p {
+      color: #555;
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      width: 100%;
+      max-width: 1000px;
+      justify-content: center;
+    }
+    
     .formulario {
       background: white;
-      padding: 20px;
-      border-radius: 8px;
-      display: inline-block;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
+      padding: 25px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #0d47a1;
+    }
+    
     input, select, button {
-      margin: 10px;
-      padding: 10px;
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
       font-size: 16px;
-      width: 250px;
+      transition: all 0.3s ease;
     }
-    canvas {
-      margin-top: 20px;
-      border: 1px dashed #aaa;
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: #0d47a1;
+      box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
+    }
+    
+    button {
+      background: #0d47a1;
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+    }
+    
+    button:hover {
+      background: #1a6fb0;
+      transform: translateY(-2px);
+    }
+    
+    .btn-generate {
+      background: #2e7d32;
+    }
+    
+    .btn-generate:hover {
+      background: #388e3c;
+    }
+    
+    .btn-download {
+      background: #c62828;
+    }
+    
+    .btn-download:hover {
+      background: #d32f2f;
+    }
+    
+    .card-container {
       background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+    
+    .card-title {
+      color: #0d47a1;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+    
+    canvas {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: white;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .instructions {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      margin-top: 30px;
+      width: 100%;
+      max-width: 1000px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .instructions h2 {
+      color: #0d47a1;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    
+    .instructions ol {
+      padding-left: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .instructions li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      color: white;
+      padding: 20px;
+      width: 100%;
+    }
+    
+    .footer a {
+      color: #ffcc80;
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .formulario, .card-container {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Gerador de Cartão SUS</h1>
+  <header>
+    <h1>Gerador de Cartão SUS</h1>
+    <p>Preencha os dados abaixo para gerar seu cartão do Sistema Único de Saúde e exporte para PDF</p>
+  </header>
   
-  <div class="formulario">
-    <input type="text" id="nome" placeholder="Nome do beneficiário" required><br>
-    <input type="date" id="data" placeholder="Data de nascimento" required><br>
-    <select id="sexo">
-      <option value="F">Feminino</option>
-      <option value="M">Masculino</option>
-    </select><br>
-    <input type="text" id="cns" placeholder="Número do CNS" maxlength="15" required><br>
-    <button onclick="gerarCartao()">Gerar Cartão</button>
+  <div class="container">
+    <div class="formulario">
+      <div class="form-group">
+        <label for="nome">Nome do beneficiário</label>
+        <input type="text" id="nome" placeholder="Nome completo" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="data">Data de nascimento</label>
+        <input type="date" id="data" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="sexo">Sexo</label>
+        <select id="sexo">
+          <option value="F">Feminino</option>
+          <option value="M">Masculino</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="cns">Número do CNS</label>
+        <input type="text" id="cns" placeholder="000 0000 0000 0000" maxlength="15" required>
+      </div>
+      
+      <button class="btn-generate" onclick="gerarCartao()">Gerar Cartão</button>
+      <button class="btn-download" id="downloadPDF" disabled onclick="downloadPDF()">Exportar para PDF</button>
+    </div>
+    
+    <div class="card-container">
+      <h2 class="card-title">Prévia do Cartão</h2>
+      <canvas id="canvas" width="800" height="271"></canvas>
+    </div>
+  </div>
+  
+  <div class="instructions">
+    <h2>Como usar o gerador</h2>
+    <ol>
+      <li>Preencha todos os campos do formulário com seus dados pessoais</li>
+      <li>Clique em "Gerar Cartão" para visualizar a prévia do cartão SUS</li>
+      <li>Verifique se todas as informações estão corretas</li>
+      <li>Clique em "Exportar para PDF" para baixar uma versão em PDF do cartão</li>
+      <li>Imprima o cartão em papel de qualidade para melhor durabilidade</li>
+    </ol>
+    <p><strong>Importante:</strong> Este é um gerador de modelo de cartão SUS para fins de demonstração. O cartão oficial deve ser obtido através dos canais oficiais do Sistema Único de Saúde.</p>
+  </div>
+  
+  <div class="footer">
+    <p>© 2023 Gerador de Cartão SUS | Desenvolvido para fins educacionais</p>
+    <p>Informações oficiais: <a href="https://www.gov.br/saude/pt-br" target="_blank">Ministério da Saúde</a></p>
   </div>
 
-  <canvas id="canvas" width="800" height="271"></canvas>
-
-  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
- <script>
-  async function gerarCartao() {
-    const nome = document.getElementById('nome').value;
-    const data = document.getElementById('data').value;
-    const sexo = document.getElementById('sexo').value;
-    const cns = document.getElementById('cns').value;
-
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-
-    // Limpa o canvas completamente
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Carrega a imagem de fundo com tratamento CORS
-    const loadImage = () => new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = "Anonymous"; // Solução para problemas CORS
-      img.src = '/cns.png?t=' + new Date().getTime(); // Cache buster
+  <script>
+    // Esperar o DOM carregar
+    document.addEventListener('DOMContentLoaded', function() {
+      // Definir data padrão (18 anos atrás)
+      const today = new Date();
+      const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+      document.getElementById('data').valueAsDate = eighteenYearsAgo;
       
-      img.onload = () => resolve(img);
-      img.onerror = (err) => reject(err);
+      // Gerar número CNS aleatório se não estiver preenchido
+      const cnsInput = document.getElementById('cns');
+      if (!cnsInput.value) {
+        cnsInput.value = Array.from({length: 15}, () => Math.floor(Math.random() * 10)).join('');
+      }
     });
 
-    try {
-      const imagem = await loadImage();
+    async function gerarCartao() {
+      const nome = document.getElementById('nome').value;
+      const data = document.getElementById('data').value;
+      const sexo = document.getElementById('sexo').value;
+      const cns = document.getElementById('cns').value;
+
+      // Validar dados
+      if (!nome || !data || !cns) {
+        alert('Por favor, preencha todos os campos!');
+        return;
+      }
       
-      // Desenha a imagem de fundo
-      ctx.drawImage(imagem, 0, 0);
+      if (cns.length !== 15) {
+        alert('O número do CNS deve ter 15 dígitos!');
+        return;
+      }
 
-      ctx.fillStyle = 'black';
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
 
-      // Nome digitado
-      ctx.font = 'bold 14px Arial';
-      ctx.textAlign = 'left';
-      ctx.fillText(nome, 470, 50);
+      // Limpar canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Data de nascimento e sexo
-      ctx.font = '13px Arial';
-      ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 470, 75);
-      ctx.fillText(`Sexo: ${sexo}`, 650, 75);
-
-      // Número CNS maior
-      ctx.font = 'bold 24px Arial';
-      ctx.textAlign = 'center';
-      const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1 $2 $3 $4");
-      ctx.fillText(cnsFormatado, 600, 105);
-
-      // Código de barras
-      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-      JsBarcode(svg, cns, {
-        format: "CODE128",
-        width: 2,
-        height: 40,
-        displayValue: false,
-        margin: 0
-      });
-
-      const svgData = new XMLSerializer().serializeToString(svg);
-      const imgBarra = new Image();
-      imgBarra.src = 'data:image/svg+xml;base64,' + btoa(svgData);
-      
-      // Espera o código de barras carregar
-      await new Promise(resolve => {
-        imgBarra.onload = resolve;
-      });
-      
-      ctx.drawImage(imgBarra, 470, 115);
-      
-    } catch (error) {
-      console.error("Erro ao gerar cartão:", error);
-      alert("Erro ao gerar cartão. Verifique o console para detalhes.");
-    }
-  }
-</script>
-</body>
-</html>
+      // Criar fundo do cartão
+      ctx.fillStyle = '#0d47a1';
+      ctx.fillRect(0
