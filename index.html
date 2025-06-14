@@ -394,7 +394,7 @@
       const imgData = canvas.toDataURL('image/jpeg', 20);
       
       // Adicionar a imagem ao PDF
-      pdf.addImage(imgData, 'JPEG', 20, 20, 190, 60);
+      pdf.addImage(imgData, 'JPEG', 10, 20, 190, 60);
       
       // Baixar o PDF
       pdf.save('cartao_sus.pdf');
