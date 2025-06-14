@@ -287,9 +287,9 @@
       document.getElementById('data').valueAsDate = eighteenYearsAgo;
       
       // Gerar número CNS aleatório se não estiver preenchido
-      //const cnsInput = document.getElementById('cns');
-      //if (!cnsInput.value) {
-       // cnsInput.value = Array.from({length: 15}, () => Math.floor(Math.random() * 10)).join('');
+      const cnsInput = document.getElementById('cns');
+      if (!cnsInput.value) {
+        cnsInput.value = Array.from({length: 15}, () => Math.floor(Math.random() * 10)).join('');
       }
     });
 
