@@ -387,14 +387,14 @@
       const pdf = new jspdf.jsPDF({
         orientation: 'landscape',
         unit: 'mm',
-        format: [74, 105] // Tamanho A7
+        format: [210, 297] // Tamanho A4
       });
       
       // Converter o canvas para imagem
       const imgData = canvas.toDataURL('image/jpeg', 0.95);
       
       // Adicionar a imagem ao PDF
-      pdf.addImage(imgData, 'JPEG', 0, 0, 105, 74);
+      pdf.addImage(imgData, 'JPEG', 0, 0, 297, 210);
       
       // Baixar o PDF
       pdf.save('cartao_sus.pdf');
