@@ -302,4 +302,54 @@
 
       // Criar fundo do cartão
       ctx.fillStyle = '#0d47a1';
-      ctx.fillRect(0
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Adicionar faixa branca
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 70, canvas.width, canvas.height - 70);
+      
+      // Adicionar logo SUS
+      ctx.fillStyle = '#0d47a1';
+      ctx.font = 'bold 36px Arial';
+      ctx.textAlign = 'left';
+      ctx.fillText('SUS', 30, 45);
+      
+      // Adicionar título
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText('Cartão do Usuário', 100, 30);
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('Sistema Único de Saúde', 100, 55);
+      
+      // Adicionar título principal
+      ctx.font = 'bold 28px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('Cartão Nacional de Saúde', canvas.width/2, 110);
+      
+      // Adicionar número CNS
+      ctx.font = 'bold 24px Arial';
+      const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1 $2 $3 $4");
+      ctx.fillText(cnsFormatado, canvas.width/2, 150);
+      
+      // Adicionar informações do usuário
+      ctx.font = 'bold 16px Arial';
+      ctx.textAlign = 'left';
+      ctx.fillText(`Nome: ${nome}`, 50, 190);
+      ctx.fillText(`Nascimento: ${data.split('-').reverse().join('/')}`, 50, 220);
+      ctx.fillText(`Sexo: ${sexo === 'F' ? 'Feminino' : 'Masculino'}`, 400, 220);
+      
+      // Adicionar rodapé
+      ctx.font = '14px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('DISQUE SAÚDE 136', canvas.width/2, 250);
+      ctx.font = '12px Arial';
+      ctx.fillText('Este cartão é de uso pessoal e intransferível.', canvas.width/2, 265);
+      ctx.fillText('VÁLIDO EM TODO O TERRITÓRIO NACIONAL.', canvas.width/2, 280);
+      
+      // Gerar código de barras
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      JsBarcode(svg, cns, {
+        format: "CODE128",
+        width: 2,
+        height: 40,
+        displayValue: false,
+        margin: 0
