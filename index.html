@@ -316,13 +316,12 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Carregar imagem de fundo (cns.png)
-      const loadImage = () => new Promise((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = "Anonymous";
-        imagem.src = 'cns.png'; // Imagem de fundo do cartão SUS
-        
-        img.onload = () => resolve(img);
-        img.onerror = (err) => reject(err);
+      const img = new Image();
+      img.crossOrigin = "Anonymous"; // Solução para problemas CORS
+      img.src = '/cns.png?t=' + new Date().getTime(); // Cache buster
+      
+      img.onload = () => resolve(img);
+      img.onerror = (err) => reject(err);
       });
 
       try {
