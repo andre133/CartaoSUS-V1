@@ -383,7 +383,7 @@
     function downloadPDF() {
       const canvas = document.getElementById('canvas');
       
-      // Criar um novo documento PDF no formato A7 (ideal para cartões)
+      // Criar um novo documento PDF no formato A4
       const pdf = new jspdf.jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -391,7 +391,7 @@
       });
       
       // Converter o canvas para imagem
-      const imgData = canvas.toDataURL('image/jpeg', 0.95);
+      const imgData = canvas.toDataURL('image/jpeg', 20);
       
       // Adicionar a imagem ao PDF
       pdf.addImage(imgData, 'JPEG', 0, 0, 195, 60);
