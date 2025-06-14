@@ -281,17 +281,17 @@
   <script>
     // Esperar o DOM carregar
     document.addEventListener('DOMContentLoaded', function() {
-      // Definir data padrão (18 anos atrás)
-      const today = new Date();
-      const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-      document.getElementById('data').valueAsDate = eighteenYearsAgo;
-      
-      // Gerar número CNS aleatório se não estiver preenchido
-      const cnsInput = document.getElementById('cns');
-      if (!cnsInput.value) {
-        cnsInput.value = Array.from({length: 15}, () => Math.floor(Math.random() * 10)).join('');
-      }
-    });
+  // Define a data padrão (18 anos atrás)
+  const today = new Date();
+  const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+  document.getElementById('data').valueAsDate = eighteenYearsAgo;
+
+  // Removido: não gerar CNS automático
+  // const cnsInput = document.getElementById('cns');
+  // if (!cnsInput.value) {
+  //   cnsInput.value = Array.from({length: 15}, () => Math.floor(Math.random() * 10)).join('');
+  // }
+});
 
     async function gerarCartao() {
       const nome = document.getElementById('nome').value;
