@@ -49,58 +49,79 @@
   <canvas id="canvas" width="800" height="271"></canvas>
 
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-  <script>
-    function gerarCartao() {
-      const nome = document.getElementById('nome').value;
-      const data = document.getElementById('data').value;
-      const sexo = document.getElementById('sexo').value;
-      const cns = document.getElementById('cns').value;
+ <script>
+  async function gerarCartao() {
+    const nome = document.getElementById('nome').value;
+    const data = document.getElementById('data').value;
+    const sexo = document.getElementById('sexo').value;
+    const cns = document.getElementById('cns').value;
 
-      const canvas = document.getElementById('canvas');
-      const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
 
-      const imagem = new Image();
-      imagem.src = 'CNS.png';
-      imagem.onload = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(imagem, 0, 0);
+    // Limpa o canvas completamente
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        ctx.fillStyle = 'black';
+    // Carrega a imagem de fundo com tratamento CORS
+    const loadImage = () => new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "Anonymous"; // Solução para problemas CORS
+      img.src = '/cns.png?t=' + new Date().getTime(); // Cache buster
+      
+      img.onload = () => resolve(img);
+      img.onerror = (err) => reject(err);
+    });
 
-        // Nome digitado
-        ctx.font = 'bold 14px Arial';
-        ctx.textAlign = 'left';
-        ctx.fillText(nome, 470, 50);
+    try {
+      const imagem = await loadImage();
+      
+      // Desenha a imagem de fundo
+      ctx.drawImage(imagem, 0, 0);
 
-        // Data de nascimento e sexo
-        ctx.font = '13px Arial';
-        ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 470, 75);
-        ctx.fillText(`Sexo: ${sexo}`, 650, 75);
+      ctx.fillStyle = 'black';
 
-        // Número CNS maior
-        ctx.font = 'bold 24px Arial';
-        ctx.textAlign = 'center';
-        const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1 $2 $3 $4");
-        ctx.fillText(cnsFormatado, 600, 105);
+      // Nome digitado
+      ctx.font = 'bold 14px Arial';
+      ctx.textAlign = 'left';
+      ctx.fillText(nome, 470, 50);
 
-        // Código de barras
-        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        JsBarcode(svg, cns, {
-          format: "CODE128",
-          width: 2,
-          height: 40,
-          displayValue: false,
-          margin: 0
-        });
+      // Data de nascimento e sexo
+      ctx.font = '13px Arial';
+      ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 470, 75);
+      ctx.fillText(`Sexo: ${sexo}`, 650, 75);
 
-        const svgData = new XMLSerializer().serializeToString(svg);
-        const imgBarra = new Image();
-        imgBarra.src = 'data:image/svg+xml;base64,' + btoa(svgData);
-        imgBarra.onload = () => {
-          ctx.drawImage(imgBarra, 470, 115);
-        };
-      };
+      // Número CNS maior
+      ctx.font = 'bold 24px Arial';
+      ctx.textAlign = 'center';
+      const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1 $2 $3 $4");
+      ctx.fillText(cnsFormatado, 600, 105);
+
+      // Código de barras
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      JsBarcode(svg, cns, {
+        format: "CODE128",
+        width: 2,
+        height: 40,
+        displayValue: false,
+        margin: 0
+      });
+
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const imgBarra = new Image();
+      imgBarra.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+      
+      // Espera o código de barras carregar
+      await new Promise(resolve => {
+        imgBarra.onload = resolve;
+      });
+      
+      ctx.drawImage(imgBarra, 470, 115);
+      
+    } catch (error) {
+      console.error("Erro ao gerar cartão:", error);
+      alert("Erro ao gerar cartão. Verifique o console para detalhes.");
     }
-  </script>
+  }
+</script>
 </body>
 </html>
