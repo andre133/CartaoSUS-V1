@@ -11,7 +11,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Arial', sans-serif;
     }
     
     body {
@@ -26,10 +26,10 @@
     
     header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       padding: 20px;
       width: 100%;
-      max-width: 1000px;
+      max-width: 900px;
       background: rgba(255, 255, 255, 0.9);
       border-radius: 10px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -38,12 +38,12 @@
     header h1 {
       color: #0d47a1;
       margin-bottom: 10px;
-      font-size: 2.5rem;
+      font-size: 2.2rem;
     }
     
     header p {
       color: #555;
-      font-size: 1.1rem;
+      font-size: 1rem;
       max-width: 700px;
       margin: 0 auto;
     }
@@ -51,38 +51,40 @@
     .container {
       display: flex;
       flex-wrap: wrap;
-      gap: 30px;
+      gap: 20px;
       width: 100%;
-      max-width: 1000px;
+      max-width: 900px;
       justify-content: center;
+      margin-bottom: 20px;
     }
     
     .formulario {
       background: white;
-      padding: 25px;
-      border-radius: 10px;
+      padding: 20px;
+      border-radius: 8px;
       width: 100%;
-      max-width: 400px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      max-width: 350px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
     
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
     
     .form-group label {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
       font-weight: 600;
       color: #0d47a1;
+      font-size: 14px;
     }
     
     input, select, button {
       width: 100%;
-      padding: 12px 15px;
+      padding: 10px 12px;
       border: 2px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
+      border-radius: 6px;
+      font-size: 14px;
       transition: all 0.3s ease;
     }
     
@@ -98,7 +100,7 @@
       border: none;
       font-weight: 600;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 8px;
       transition: background 0.3s ease;
     }
     
@@ -125,24 +127,24 @@
     
     .card-container {
       background: white;
-      padding: 20px;
-      border-radius: 10px;
+      padding: 15px;
+      border-radius: 8px;
       width: 100%;
-      max-width: 500px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      max-width: 520px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
     
     .card-title {
       color: #0d47a1;
-      margin-bottom: 15px;
-      font-size: 1.5rem;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
     }
     
     canvas {
       width: 100%;
       max-width: 800px;
-      height: auto;
+      height: 271px;
       border: 1px solid #ddd;
       border-radius: 5px;
       background: white;
@@ -151,36 +153,45 @@
     
     .instructions {
       background: white;
-      padding: 25px;
-      border-radius: 10px;
-      margin-top: 30px;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
       width: 100%;
-      max-width: 1000px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      max-width: 900px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
     
     .instructions h2 {
       color: #0d47a1;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       text-align: center;
+      font-size: 1.4rem;
     }
     
     .instructions ol {
       padding-left: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
     
     .instructions li {
-      margin-bottom: 10px;
-      line-height: 1.6;
+      margin-bottom: 8px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+    
+    .instructions p {
+      font-size: 14px;
+      text-align: center;
+      margin-top: 10px;
     }
     
     .footer {
-      margin-top: 30px;
+      margin-top: 20px;
       text-align: center;
       color: white;
-      padding: 20px;
+      padding: 15px;
       width: 100%;
+      font-size: 14px;
     }
     
     .footer a {
@@ -201,13 +212,17 @@
       .formulario, .card-container {
         max-width: 100%;
       }
+      
+      canvas {
+        height: auto;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Gerador de Cartão SUS</h1>
-    <p>Preencha os dados abaixo para gerar seu cartão do Sistema Único de Saúde e exporte para PDF</p>
+    <p>Preencha os dados para gerar seu cartão do Sistema Único de Saúde com layout oficial</p>
   </header>
   
   <div class="container">
@@ -240,7 +255,7 @@
     </div>
     
     <div class="card-container">
-      <h2 class="card-title">Prévia do Cartão</h2>
+      <h2 class="card-title">Prévia do Cartão SUS</h2>
       <canvas id="canvas" width="800" height="271"></canvas>
     </div>
   </div>
@@ -248,11 +263,11 @@
   <div class="instructions">
     <h2>Como usar o gerador</h2>
     <ol>
-      <li>Preencha todos os campos do formulário com seus dados pessoais</li>
-      <li>Clique em "Gerar Cartão" para visualizar a prévia do cartão SUS</li>
+      <li>Preencha todos os campos do formulário com seus dados</li>
+      <li>Clique em "Gerar Cartão" para visualizar o cartão</li>
       <li>Verifique se todas as informações estão corretas</li>
-      <li>Clique em "Exportar para PDF" para baixar uma versão em PDF do cartão</li>
-      <li>Imprima o cartão em papel de qualidade para melhor durabilidade</li>
+      <li>Clique em "Exportar para PDF" para baixar o cartão</li>
+      <li>Imprima o cartão em papel fotográfico para melhor qualidade</li>
     </ol>
     <p><strong>Importante:</strong> Este é um gerador de modelo de cartão SUS para fins de demonstração. O cartão oficial deve ser obtido através dos canais oficiais do Sistema Único de Saúde.</p>
   </div>
@@ -300,75 +315,70 @@
       // Limpar canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Criar fundo do cartão
-      ctx.fillStyle = '#0d47a1';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      // Adicionar faixa branca
-      ctx.fillStyle = 'white';
-      ctx.fillRect(0, 70, canvas.width, canvas.height - 70);
-      
-      // Adicionar logo SUS
-      ctx.fillStyle = '#0d47a1';
-      ctx.font = 'bold 36px Arial';
-      ctx.textAlign = 'left';
-      ctx.fillText('SUS', 30, 45);
-      
-      // Adicionar título
-      ctx.font = 'bold 20px Arial';
-      ctx.fillText('Cartão do Usuário', 100, 30);
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText('Sistema Único de Saúde', 100, 55);
-      
-      // Adicionar título principal
-      ctx.font = 'bold 28px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText('Cartão Nacional de Saúde', canvas.width/2, 110);
-      
-      // Adicionar número CNS
-      ctx.font = 'bold 24px Arial';
-      const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1 $2 $3 $4");
-      ctx.fillText(cnsFormatado, canvas.width/2, 150);
-      
-      // Adicionar informações do usuário
-      ctx.font = 'bold 16px Arial';
-      ctx.textAlign = 'left';
-      ctx.fillText(`Nome: ${nome}`, 50, 190);
-      ctx.fillText(`Nascimento: ${data.split('-').reverse().join('/')}`, 50, 220);
-      ctx.fillText(`Sexo: ${sexo === 'F' ? 'Feminino' : 'Masculino'}`, 400, 220);
-      
-      // Adicionar rodapé
-      ctx.font = '14px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText('DISQUE SAÚDE 136', canvas.width/2, 250);
-      ctx.font = '12px Arial';
-      ctx.fillText('Este cartão é de uso pessoal e intransferível.', canvas.width/2, 265);
-      ctx.fillText('VÁLIDO EM TODO O TERRITÓRIO NACIONAL.', canvas.width/2, 280);
-      
-      // Gerar código de barras
-      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-      JsBarcode(svg, cns, {
-        format: "CODE128",
-        width: 2,
-        height: 40,
-        displayValue: false,
-        margin: 0
+      // Carregar imagem de fundo (cns.png)
+      const loadImage = () => new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = 'https://i.imgur.com/6Fq6lJh.png'; // Imagem de fundo do cartão SUS
+        
+        img.onload = () => resolve(img);
+        img.onerror = (err) => reject(err);
       });
 
-      const svgData = new XMLSerializer().serializeToString(svg);
-      const imgBarra = new Image();
-      imgBarra.src = 'data:image/svg+xml;base64,' + btoa(svgData);
-      
-      // Desenhar código de barras após carregamento
-      imgBarra.onload = function() {
-        ctx.drawImage(imgBarra, 50, 230);
+      try {
+        const imagem = await loadImage();
+        
+        // Desenha a imagem de fundo
+        ctx.drawImage(imagem, 0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = 'black';
+
+        // Nome digitado
+        ctx.font = 'bold 14px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillText(nome, 470, 50);
+
+        // Data de nascimento e sexo
+        ctx.font = '13px Arial';
+        ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 470, 75);
+        ctx.fillText(`Sexo: ${sexo}`, 650, 75);
+
+        // Número CNS maior
+        ctx.font = 'bold 24px Arial';
+        ctx.textAlign = 'center';
+        const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1 $2 $3 $4");
+        ctx.fillText(cnsFormatado, 600, 105);
+
+        // Código de barras
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        JsBarcode(svg, cns, {
+          format: "CODE128",
+          width: 2,
+          height: 40,
+          displayValue: false,
+          margin: 0
+        });
+
+        const svgData = new XMLSerializer().serializeToString(svg);
+        const imgBarra = new Image();
+        imgBarra.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+        
+        // Espera o código de barras carregar
+        await new Promise(resolve => {
+          imgBarra.onload = resolve;
+        });
+        
+        ctx.drawImage(imgBarra, 470, 115);
         
         // Habilitar botão de download
         document.getElementById('downloadPDF').disabled = false;
         
         // Mostrar mensagem de sucesso
         alert('Cartão gerado com sucesso! Clique em "Exportar para PDF" para baixar.');
-      };
+      } catch (error) {
+        console.error("Erro ao carregar imagem:", error);
+        alert("Erro ao carregar a imagem de fundo. Verifique o console para detalhes.");
+      }
     }
 
     function downloadPDF() {
