@@ -316,13 +316,13 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Carregar imagem de fundo (cns.png)
-      const img = new Image();
-      img.crossOrigin = "Anonymous"; // Solução para problemas CORS
-      img.src = '/cns.png?t=' + new Date().getTime(); // Cache buster
-      
-      img.onload = () => resolve(img);
-      img.onerror = (err) => reject(err);
-      });
+      const loadImage = () => new Promise((resolve, reject) => {
+  const img = new Image();
+  img.crossOrigin = "Anonymous";
+  img.src = '/cns.png'; // referência à imagem que você hospedará no mesmo servidor
+  img.onload = () => resolve(img);
+  img.onerror = (err) => reject(err);
+});
 
       try {
         const imagem = await loadImage();
