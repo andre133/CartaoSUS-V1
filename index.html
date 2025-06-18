@@ -334,12 +334,12 @@
         ctx.fillStyle = 'black';
 
         // Nome digitado
-        ctx.font = 'bold 12px Gotham';
+        ctx.font = 'bold 11px Gotham';
         ctx.textAlign = 'left';
         ctx.fillText(nome.toUpperCase(), 470, 55);
 
         // Data de nascimento e sexo
-        ctx.font = '12px Gotham';
+        ctx.font = 'bold 10px Gotham';
         ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 470, 80);
         ctx.fillText(`Sexo: ${sexo}`, 650, 80);
 
@@ -395,7 +395,7 @@
       const imgData = canvas.toDataURL('image/jpeg', 20);
       
       // Adicionar a imagem ao PDF
-      pdf.addImage(imgData, 'JPEG', 10, 20, 190, 60);
+      pdf.addImage(imgData, 'JPEG', 10, 20, 175, 60);
       
       // Baixar o PDF
       pdf.save('cartao_sus.pdf');
