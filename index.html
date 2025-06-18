@@ -256,7 +256,7 @@
     
     <div class="card-container">
       <h2 class="card-title">Prévia do Cartão SUS</h2>
-      <canvas id="canvas" width="800" height="271"></canvas>
+      <canvas id="canvas" width="1600" height="542" style="width: 800px; height: 271px;"></canvas>
     </div>
   </div>
   
@@ -312,9 +312,11 @@
 
       const canvas = document.getElementById('canvas');
       const ctx = canvas.getContext('2d');
+      ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform
 
       // Limpar canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(2, 2);
 
       // Carregar imagem de fundo (cns.png)
       const loadImage = () => new Promise((resolve, reject) => {
@@ -392,10 +394,10 @@
       });
       
       // Converter o canvas para imagem
-      const imgData = canvas.toDataURL('image/jpeg', 20);
+      const imgData = canvas.toDataURL('image/png');
       
       // Adicionar a imagem ao PDF
-      pdf.addImage(imgData, 'JPEG', 10, 20, 175, 60);
+      pdf.addImage(imgData, 'PNG', 10, 20, 190, 65);
       
       // Baixar o PDF
       pdf.save('cartao_sus.pdf');
