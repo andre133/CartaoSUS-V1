@@ -341,13 +341,13 @@
         // Data de nascimento e sexo
         ctx.font = '12px Gotham';
         ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 470, 80);
-        ctx.fillText(`Sexo: ${sexo}`, 655, 80);
+        ctx.fillText(`Sexo: ${sexo}`, 658, 80);
 
         // Número CNS maior
         ctx.font = 'bold 26px Gotham';
         ctx.textAlign = 'center';
         const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1   $2   $3   $4");
-        ctx.fillText(cnsFormatado, 589, 105);
+        ctx.fillText(cnsFormatado, 591, 105);
 
         // Código de barras
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
