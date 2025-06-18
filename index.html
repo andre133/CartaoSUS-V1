@@ -392,10 +392,10 @@
       });
       
       // Converter o canvas para imagem
-      const imgData = canvas.toDataURL('image/jpeg', 20);
+     const imgData = canvas.toDataURL('image/png');
       
       // Adicionar a imagem ao PDF
-      pdf.addImage(imgData, 'JPEG', 10, 20, 175, 60);
+      pdf.addImage(imgData, 'PNG', 10, 20, 175, 60);
       
       // Baixar o PDF
       pdf.save('cartao_sus.pdf');
