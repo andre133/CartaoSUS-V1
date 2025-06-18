@@ -1,206 +1,352 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gerador de Cartão SUS</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --primary: #0066a6;
+      --secondary: #009d56;
+      --light: #e6f7ff;
+      --dark: #003b5c;
+      --danger: #e74c3c;
+      --success: #2ecc71;
+    }
+    
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Arial', sans-serif;
     }
     
     body {
-      background: linear-gradient(135deg, #1a6fb0, #0d47a1);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e6f7ff, #c2e4f0);
+      color: #333;
+      line-height: 1.6;
       min-height: 100vh;
       padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: #333;
     }
     
     header {
       text-align: center;
-      margin-bottom: 20px;
-      padding: 20px;
+      margin-bottom: 30px;
       width: 100%;
-      max-width: 900px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      max-width: 800px;
     }
     
-    header h1 {
-      color: #0d47a1;
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
       margin-bottom: 10px;
-      font-size: 2.2rem;
     }
     
-    header p {
-      color: #555;
-      font-size: 1rem;
-      max-width: 700px;
+    .logo i {
+      font-size: 2.5rem;
+      color: var(--primary);
+    }
+    
+    h1 {
+      color: var(--dark);
+      font-size: 2.2rem;
+      margin-bottom: 5px;
+    }
+    
+    .subtitle {
+      color: var(--primary);
+      font-weight: 500;
+      font-size: 1.1rem;
+      max-width: 600px;
       margin: 0 auto;
     }
     
     .container {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
-      width: 100%;
-      max-width: 900px;
+      gap: 30px;
       justify-content: center;
-      margin-bottom: 20px;
+      width: 100%;
+      max-width: 1200px;
     }
     
-    .formulario {
+    .form-section {
       background: white;
-      padding: 20px;
-      border-radius: 8px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 30px;
       width: 100%;
-      max-width: 350px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      transition: transform 0.3s ease;
+    }
+    
+    .form-section:hover {
+      transform: translateY(-5px);
+    }
+    
+    .form-title {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 25px;
+      text-align: center;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .form-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 3px;
+      background: var(--secondary);
+      border-radius: 2px;
     }
     
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
+      position: relative;
     }
     
     .form-group label {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
       font-weight: 600;
-      color: #0d47a1;
-      font-size: 14px;
+      color: var(--dark);
+      font-size: 0.95rem;
     }
     
-    input, select, button {
+    .form-group i {
+      position: absolute;
+      left: 12px;
+      top: 39px;
+      color: var(--primary);
+      font-size: 1.1rem;
+    }
+    
+    input, select {
       width: 100%;
-      padding: 10px 12px;
-      border: 2px solid #ddd;
-      border-radius: 6px;
-      font-size: 14px;
-      transition: all 0.3s ease;
+      padding: 12px 15px 12px 40px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s;
     }
     
     input:focus, select:focus {
+      border-color: var(--primary);
       outline: none;
-      border-color: #0d47a1;
-      box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
+      box-shadow: 0 0 0 3px rgba(0, 102, 166, 0.2);
+    }
+    
+    input::placeholder {
+      color: #a0aec0;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
     }
     
     button {
-      background: #0d47a1;
-      color: white;
+      flex: 1;
+      padding: 14px 20px;
       border: none;
+      border-radius: 8px;
+      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      margin-top: 8px;
-      transition: background 0.3s ease;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
     
-    button:hover {
-      background: #1a6fb0;
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #005a8f;
       transform: translateY(-2px);
     }
     
-    .btn-generate {
-      background: #2e7d32;
+    .btn-secondary {
+      background: var(--secondary);
+      color: white;
     }
     
-    .btn-generate:hover {
-      background: #388e3c;
+    .btn-secondary:hover {
+      background: #008a48;
+      transform: translateY(-2px);
     }
     
-    .btn-download {
-      background: #c62828;
+    button:disabled {
+      background: #95a5a6;
+      cursor: not-allowed;
+      transform: none;
     }
     
-    .btn-download:hover {
-      background: #d32f2f;
+    .preview-section {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     
     .card-container {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
+      position: relative;
       width: 100%;
-      max-width: 520px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      text-align: center;
+      max-width: 400px;
+      margin: 20px 0;
     }
     
-    .card-title {
-      color: #0d47a1;
-      margin-bottom: 10px;
-      font-size: 1.3rem;
+    .card {
+      background: linear-gradient(to bottom, #d0e7f5, #e6f7ff);
+      border-radius: 12px;
+      border: 1px solid #b3d9ec;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      position: relative;
+      height: 250px;
+    }
+    
+    .card-header {
+      background: var(--primary);
+      height: 50px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    
+    .card-body {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 15px;
+    }
+    
+    .card-photo {
+      background: #e0e0e0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777;
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 5px;
+    }
+    
+    .card-details {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .card-row {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card-label {
+      font-size: 0.75rem;
+      color: var(--dark);
+      font-weight: 600;
+    }
+    
+    .card-value {
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 3px 0;
+      border-bottom: 1px dashed #b3d9ec;
+    }
+    
+    .card-cns {
+      margin-top: 10px;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+    
+    .card-footer {
+      background: #f8f8f8;
+      height: 40px;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      font-size: 0.8rem;
+      color: #666;
+    }
+    
+    .canvas-container {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      display: none;
     }
     
     canvas {
       width: 100%;
-      max-width: 800px;
-      height: 271px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background: white;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      height: auto;
+      display: block;
     }
     
     .instructions {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
+      background: #fff9e6;
+      border-left: 4px solid #ffcc00;
+      padding: 15px;
+      border-radius: 0 8px 8px 0;
       margin-top: 20px;
-      width: 100%;
-      max-width: 900px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      font-size: 0.9rem;
     }
     
-    .instructions h2 {
-      color: #0d47a1;
-      margin-bottom: 10px;
-      text-align: center;
-      font-size: 1.4rem;
+    .instructions h3 {
+      color: #d35400;
+      margin-bottom: 8px;
     }
     
-    .instructions ol {
+    .instructions ul {
       padding-left: 20px;
-      margin-bottom: 15px;
     }
     
     .instructions li {
-      margin-bottom: 8px;
-      line-height: 1.5;
-      font-size: 14px;
+      margin-bottom: 5px;
     }
     
-    .instructions p {
-      font-size: 14px;
-      text-align: center;
-      margin-top: 10px;
-    }
-    
-    .footer {
-      margin-top: 20px;
-      text-align: center;
-      color: white;
-      padding: 15px;
-      width: 100%;
-      font-size: 14px;
-    }
-    
-    .footer a {
-      color: #ffcc80;
-      text-decoration: none;
-    }
-    
-    .footer a:hover {
-      text-decoration: underline;
+    .error {
+      color: var(--danger);
+      font-size: 0.85rem;
+      margin-top: 5px;
+      display: none;
     }
     
     @media (max-width: 768px) {
@@ -209,188 +355,281 @@
         align-items: center;
       }
       
-      .formulario, .card-container {
+      .form-section, .preview-section {
         max-width: 100%;
       }
       
-      canvas {
-        height: auto;
+      .button-group {
+        flex-direction: column;
       }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Gerador de Cartão SUS</h1>
-    <p>Preencha os dados para gerar seu cartão SUS</p>
+    <div class="logo">
+      <i class="fas fa-id-card"></i>
+      <h1>Gerador de Cartão SUS</h1>
+    </div>
+    <p class="subtitle">Preencha os dados abaixo para gerar seu cartão do Sistema Único de Saúde</p>
   </header>
   
   <div class="container">
-    <div class="formulario">
+    <div class="form-section">
+      <h2 class="form-title">Dados Pessoais</h2>
+      
       <div class="form-group">
-        <label for="nome">Nome do beneficiário</label>
-        <input type="text" id="nome" placeholder="Nome completo" required>
+        <label for="nome">Nome Completo</label>
+        <i class="fas fa-user"></i>
+        <input id="nome" placeholder="Digite seu nome completo" />
+        <div class="error" id="nome-error">Por favor, insira seu nome completo</div>
       </div>
       
       <div class="form-group">
-        <label for="data">Data de nascimento</label>
-        <input type="date" id="data" required>
+        <label for="data">Data de Nascimento</label>
+        <i class="fas fa-calendar"></i>
+        <input id="data" type="date" />
+        <div class="error" id="data-error">Por favor, selecione sua data de nascimento</div>
       </div>
       
       <div class="form-group">
         <label for="sexo">Sexo</label>
+        <i class="fas fa-venus-mars"></i>
         <select id="sexo">
+          <option value="">Selecione o sexo</option>
           <option value="F">Feminino</option>
           <option value="M">Masculino</option>
         </select>
+        <div class="error" id="sexo-error">Por favor, selecione seu sexo</div>
       </div>
       
       <div class="form-group">
-        <label for="cns">Número do CNS</label>
-        <input type="text" id="cns" placeholder="000 0000 0000 0000" maxlength="15" required>
+        <label for="cns">Número do CNS (15 dígitos)</label>
+        <i class="fas fa-hashtag"></i>
+        <input id="cns" placeholder="000000000000000" maxlength="15" />
+        <div class="error" id="cns-error">O CNS deve ter exatamente 15 dígitos</div>
       </div>
       
-      <button class="btn-generate" onclick="gerarCartao()">Gerar Cartão</button>
-      <button class="btn-download" id="downloadPDF" disabled onclick="downloadPDF()">Exportar para PDF</button>
+      <div class="button-group">
+        <button class="btn-primary" onclick="gerarCartao()">
+          <i class="fas fa-id-card"></i> Gerar Cartão
+        </button>
+        <button class="btn-secondary" onclick="downloadPDF()" id="downloadPDF" disabled>
+          <i class="fas fa-download"></i> Baixar PDF
+        </button>
+      </div>
+      
+      <div class="instructions">
+        <h3><i class="fas fa-info-circle"></i> Instruções:</h3>
+        <ul>
+          <li>Preencha todos os campos obrigatórios</li>
+          <li>O número do CNS deve conter exatamente 15 dígitos</li>
+          <li>Após gerar o cartão, clique em "Baixar PDF" para salvar</li>
+        </ul>
+      </div>
     </div>
     
-    <div class="card-container">
-      <h2 class="card-title">Prévia do Cartão SUS</h2>
-      <canvas id="canvas" width="800" height="271"></canvas>
+    <div class="preview-section">
+      <h2 class="form-title">Pré-visualização</h2>
+      
+      <div class="card-container">
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-heartbeat"></i> CARTÃO NACIONAL DE SAÚDE
+          </div>
+          <div class="card-body">
+            <div class="card-photo">
+              FOTO 3x4
+            </div>
+            <div class="card-details">
+              <div class="card-row">
+                <span class="card-label">Nome</span>
+                <span class="card-value" id="preview-nome">_________________________</span>
+              </div>
+              <div class="card-row">
+                <span class="card-label">Data de Nascimento</span>
+                <span class="card-value" id="preview-data">__/__/____</span>
+              </div>
+              <div class="card-row">
+                <span class="card-label">Sexo</span>
+                <span class="card-value" id="preview-sexo">______</span>
+              </div>
+              <div class="card-row">
+                <span class="card-label">Número do CNS</span>
+                <span class="card-cns" id="preview-cns">000 0000 0000 0000</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <i class="fas fa-shield-alt"></i> Documento oficial do Sistema Único de Saúde
+          </div>
+        </div>
+      </div>
+      
+      <div class="canvas-container">
+        <canvas id="canvas" width="1600" height="542"></canvas>
+      </div>
     </div>
   </div>
   
-  <div class="instructions">
-    <h2>Como usar o gerador</h2>
-    <ol>
-      <li>Copie os dados do paciente do PEC e cole no campo correspondente acima.</li>
-      <li>Clique em "Gerar Cartão" para visualizar o cartão</li>
-      <li>Verifique se todas as informações estão corretas</li>
-      <li>Clique em "Exportar para PDF" para baixar o cartão</li>
-      <li>Imprima o cartão em Folha A4 para melhor qualidade</li>
-    </ol>
-    <p><strong>Importante:</strong> Este é um gerador do cartão SUS para quando o site CADWEB não funcionar. </p>
-  <p>                               O cartão oficial deve ser obtido por meio dos canais oficiais do Sistema Único de Saúde...<p>
-  </div>
-  
-  <div class="footer">
-    <p>© 2025 Gerador de Cartão SUS | Desenvolvido por André Messias</p>
-    <p>Informações oficiais: <a href="https://cadastro.saude.gov.br/novocartao" target="_blank">Ministério da Saúde</a></p>
-  </div>
-
   <script>
-    // Esperar o DOM carregar
-    document.addEventListener('DOMContentLoaded', function() {
-  // Define a data padrão (18 anos atrás)
-  const today = new Date();
-  const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-  document.getElementById('data').valueAsDate = eighteenYearsAgo;
-
-  // Removido: não gerar CNS automático
-  // const cnsInput = document.getElementById('cns');
-  // if (!cnsInput.value) {
-  //   cnsInput.value = Array.from({length: 15}, () => Math.floor(Math.random() * 10)).join('');
-  // }
-});
-
+    const { jsPDF } = window.jspdf;
+    
+    function showError(id, message) {
+      const errorElement = document.getElementById(`${id}-error`);
+      errorElement.textContent = message;
+      errorElement.style.display = 'block';
+      return false;
+    }
+    
+    function hideError(id) {
+      document.getElementById(`${id}-error`).style.display = 'none';
+      return true;
+    }
+    
     async function gerarCartao() {
-      const nome = document.getElementById('nome').value;
+      // Reset errors
+      hideError('nome');
+      hideError('data');
+      hideError('sexo');
+      hideError('cns');
+      
+      const nome = document.getElementById('nome').value.trim();
       const data = document.getElementById('data').value;
       const sexo = document.getElementById('sexo').value;
       const cns = document.getElementById('cns').value;
-
-      // Validar dados
-      if (!nome || !data || !cns) {
-        alert('Por favor, preencha todos os campos!');
-        return;
+      
+      let valid = true;
+      
+      if (!nome) {
+        showError('nome', 'Por favor, insira seu nome completo');
+        valid = false;
+      }
+      
+      if (!data) {
+        showError('data', 'Por favor, selecione sua data de nascimento');
+        valid = false;
+      }
+      
+      if (!sexo) {
+        showError('sexo', 'Por favor, selecione seu sexo');
+        valid = false;
       }
       
       if (cns.length !== 15) {
-        alert('O número do CNS deve ter 15 dígitos!');
-        return;
+        showError('cns', 'O CNS deve ter exatamente 15 dígitos');
+        valid = false;
       }
-
+      
+      if (!valid) return;
+      
+      // Update preview
+      document.getElementById('preview-nome').textContent = nome.toUpperCase();
+      document.getElementById('preview-data').textContent = data.split('-').reverse().join('/');
+      document.getElementById('preview-sexo').textContent = sexo === 'F' ? 'Feminino' : 'Masculino';
+      document.getElementById('preview-cns').textContent = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1 $2 $3 $4");
+      
       const canvas = document.getElementById('canvas');
       const ctx = canvas.getContext('2d');
-
-      // Limpar canvas
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(2, 2);
 
-      // Carregar imagem de fundo (cns.png)
-      const loadImage = () => new Promise((resolve, reject) => {
-  const img = new Image();
-  img.crossOrigin = "Anonymous";
-  img.src = '/cns.png'; // referência à imagem que você hospedará no mesmo servidor
-  img.onload = () => resolve(img);
-  img.onerror = (err) => reject(err);
-});
-
-      try {
-        const imagem = await loadImage();
-        
-        // Desenha a imagem de fundo
-        ctx.drawImage(imagem, 0, 0, canvas.width, canvas.height);
-
-        ctx.fillStyle = 'black';
-
-        // Nome digitado
-        ctx.font = 'bold 11px Gotham';
-        ctx.textAlign = 'left';
-        ctx.fillText(nome.toUpperCase(), 470, 55);
-
-        // Data de nascimento e sexo
-        ctx.font = 'bold 10px Gotham';
-        ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 470, 80);
-        ctx.fillText(`Sexo: ${sexo}`, 675, 80);
-
-        // Número CNS maior
-        ctx.font = 'bold 26px Gotham';
-        ctx.textAlign = 'center';
-        const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1   $2   $3   $4");
-        ctx.fillText(cnsFormatado, 595, 105);
-
-        // Código de barras
-        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        JsBarcode(svg, cns, {
-          format: "CODE128",
-          width: 1.9,
-          height: 40,
-          displayValue: false,
-          margin: 0
-        });
-
-        const svgData = new XMLSerializer().serializeToString(svg);
-        const imgBarra = new Image();
-        imgBarra.src = 'data:image/svg+xml;base64,' + btoa(svgData);
-        
-        // Espera o código de barras carregar
-        await new Promise(resolve => {
-          imgBarra.onload = resolve;
-        });
-        
-        ctx.drawImage(imgBarra, 470, 115);
-        
-        // Habilitar botão de download
-        document.getElementById('downloadPDF').disabled = false;
-        
-        // Mostrar mensagem de sucesso
-        alert('Cartão gerado com sucesso! Clique em "Exportar para PDF" para baixar.');
-      } catch (error) {
-        console.error("Erro ao carregar imagem:", error);
-        alert("Erro ao carregar a imagem de fundo. Verifique o console para detalhes.");
-      }
-    }
-
-    ffunction downloadPDF() {
-      const canvas = document.getElementById('canvas');
-      const pdf = new jspdf.jsPDF({ unit: 'mm', format: 'a4' });
-      const imgData = canvas.toDataURL('image/png');
-      pdf.addImage(imgData, 'PNG', 10, 20, 190, 65);
-      pdf.save('cartao_sus.pdf');
+      // Create a simple SUS card background
+      ctx.fillStyle = '#d0e7f5';
+      ctx.fillRect(0, 0, 800, 271);
       
-      // Mostrar mensagem
-      alert('PDF gerado com sucesso! Verifique sua pasta de downloads.');
+      // Card header
+      ctx.fillStyle = '#0066a6';
+      ctx.fillRect(0, 0, 800, 50);
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText('CARTÃO NACIONAL DE SAÚDE', 20, 30);
+      
+      // Card body
+      ctx.fillStyle = 'black';
+      ctx.font = 'bold 15px Arial';
+      ctx.fillText('Nome:', 20, 80);
+      ctx.fillText(nome.toUpperCase(), 80, 80);
+      
+      ctx.fillText('Data Nasc.:', 20, 110);
+      ctx.fillText(data.split('-').reverse().join('/'), 110, 110);
+      
+      ctx.fillText('Sexo:', 20, 140);
+      ctx.fillText(sexo === 'F' ? 'Feminino' : 'Masculino', 80, 140);
+      
+      ctx.fillText('Número do CNS:', 20, 170);
+      ctx.font = 'bold 20px Arial';
+      const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1 $2 $3 $4");
+      ctx.fillText(cnsFormatado, 150, 170);
+      
+      // Generate barcode
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      JsBarcode(svg, cns, { 
+        format: "CODE128", 
+        width: 2, 
+        height: 40, 
+        displayValue: false, 
+        margin: 0 
+      });
+      
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const imgBarra = new Image();
+      imgBarra.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+      
+      await new Promise(res => imgBarra.onload = res);
+      ctx.drawImage(imgBarra, 20, 180);
+      
+      // Show canvas and enable download button
+      document.querySelector('.canvas-container').style.display = 'block';
+      document.getElementById('downloadPDF').disabled = false;
+      
+      // Show success message
+      const originalText = document.querySelector('.btn-primary').innerHTML;
+      document.querySelector('.btn-primary').innerHTML = '<i class="fas fa-check"></i> Cartão Gerado!';
+      setTimeout(() => {
+        document.querySelector('.btn-primary').innerHTML = originalText;
+      }, 2000);
     }
+    
+    function downloadPDF() {
+      const canvas = document.getElementById('canvas');
+      const pdf = new jsPDF({ 
+        orientation: 'landscape',
+        unit: 'mm', 
+        format: [85, 54] // ID card size
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      pdf.addImage(imgData, 'PNG', 5, 5, 85, 54);
+      
+      // Show download success
+      const originalText = document.querySelector('.btn-secondary').innerHTML;
+      document.querySelector('.btn-secondary').innerHTML = '<i class="fas fa-check"></i> Baixado!';
+      setTimeout(() => {
+        document.querySelector('.btn-secondary').innerHTML = originalText;
+      }, 2000);
+      
+      pdf.save('cartao_sus.pdf');
+    }
+    
+    // Add input masks and validation
+    document.getElementById('cns').addEventListener('input', function(e) {
+      this.value = this.value.replace(/\D/g, '').substring(0, 15);
+      hideError('cns');
+    });
+    
+    document.getElementById('nome').addEventListener('input', function() {
+      hideError('nome');
+    });
+    
+    document.getElementById('data').addEventListener('change', function() {
+      hideError('data');
+    });
+    
+    document.getElementById('sexo').addEventListener('change', function() {
+      hideError('sexo');
+    });
   </script>
 </body>
 </html>
