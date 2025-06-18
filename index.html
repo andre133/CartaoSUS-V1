@@ -395,13 +395,13 @@
       const imgData = canvas.toDataURL('image/png', 20);
       
       // Adicionar a imagem ao PDF
-      pdf.addImage(imgData, 'PNG', 10, 20, 175, 60);
+      pdf.addImage(imgData, 'PNG', 10, 10, 175, 60);
       
       // Baixar o PDF
       pdf.save('cartao_sus.pdf');
       
       // Mostrar mensagem
-      alert('PDF gerado com sucesso! Verifique sua pasta de downloads.');
+      alert('PDF gerado com sucesso! Verifique sua pasta de download.');
     }
   </script>
 </body>
