@@ -344,9 +344,9 @@
         ctx.fillText(`Sexo: ${sexo}`, 650, 70);
 
         // Número CNS maior
-        ctx.font = 'bold 24px SimSun';
+        ctx.font = '24px Calibri';
         ctx.textAlign = 'center';
-        const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1 $2 $3 $4");
+        const cnsFormatado = cns.replace(/(.{3})(..{4})(..{4})(..{4})/, "$1 $2 $3 $4");
         ctx.fillText(cnsFormatado, 600, 105);
 
         // Código de barras
