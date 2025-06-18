@@ -339,12 +339,12 @@
         ctx.fillText(nome.toUpperCase(), 470, 50);
 
         // Data de nascimento e sexo
-        ctx.font = '13px Arial';
-        ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 470, 75);
-        ctx.fillText(`Sexo: ${sexo}`, 650, 75);
+        ctx.font = '12px SimSun';
+        ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 470, 70);
+        ctx.fillText(`Sexo: ${sexo}`, 650, 70);
 
         // Número CNS maior
-        ctx.font = 'bold 24px Arial';
+        ctx.font = 'bold 24px SimSun';
         ctx.textAlign = 'center';
         const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1 $2 $3 $4");
         ctx.fillText(cnsFormatado, 600, 105);
@@ -352,7 +352,7 @@
         // Código de barras
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         JsBarcode(svg, cns, {
-          format: "CODE128",
+          format: "EAN13",
           width: 2,
           height: 40,
           displayValue: false,
