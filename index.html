@@ -346,14 +346,14 @@
         // Número CNS maior
         ctx.font = '24px Cambria';
         ctx.textAlign = 'center';
-        const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1   $2   $3   $4");
+        const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1    $2    $3    $4");
         ctx.fillText(cnsFormatado, 600, 105);
 
         // Código de barras
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         JsBarcode(svg, cns, {
           format: "CODE128",
-          width: 1,
+          width: 2,
           height: 40,
           displayValue: false,
           margin: 0
