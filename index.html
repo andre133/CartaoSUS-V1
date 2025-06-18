@@ -334,20 +334,20 @@
         ctx.fillStyle = 'black';
 
         // Nome digitado
-        ctx.font = '13px SimSun';
+        ctx.font = '12px Gotham';
         ctx.textAlign = 'left';
         ctx.fillText(nome.toUpperCase(), 470, 55);
 
         // Data de nascimento e sexo
-        ctx.font = '13px SimSun';
+        ctx.font = '12px Gotham';
         ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 470, 80);
         ctx.fillText(`Sexo: ${sexo}`, 650, 80);
 
         // Número CNS maior
-        ctx.font = '24px Gotham';
+        ctx.font = '25px Gotham';
         ctx.textAlign = 'center';
         const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1   $2   $3   $4");
-        ctx.fillText(cnsFormatado, 590, 105);
+        ctx.fillText(cnsFormatado, 589, 105);
 
         // Código de barras
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
