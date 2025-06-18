@@ -340,11 +340,11 @@
 
         // Data de nascimento e sexo
         ctx.font = '12px SimSun';
-        ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 470, 70);
-        ctx.fillText(`Sexo: ${sexo}`, 650, 70);
+        ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 470, 80);
+        ctx.fillText(`Sexo: ${sexo}`, 650, 80);
 
         // Número CNS maior
-        ctx.font = '24px Calibri';
+        ctx.font = '24px Cambria';
         ctx.textAlign = 'center';
         const cnsFormatado = cns.replace(/(.{3})(..{4})(..{4})(..{4})/, "$1 $2 $3 $4");
         ctx.fillText(cnsFormatado, 600, 105);
