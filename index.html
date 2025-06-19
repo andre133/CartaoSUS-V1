@@ -256,7 +256,7 @@
     
     <div class="card-container">
       <h2 class="card-title">Prévia do Cartão SUS</h2>
-      <canvas id="canvas" width="800" height="271"></canvas>
+      <canvas id="canvas" width="1600" height="542" style="width: 800px; height: 271px;"></canvas>
     </div>
   </div>
   
@@ -312,6 +312,7 @@
 
       const canvas = document.getElementById('canvas');
       const ctx = canvas.getContext('2d');
+      ctx.scale(2, 2);
 
       // Limpar canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -334,17 +335,17 @@
         ctx.fillStyle = 'black';
 
         // Nome digitado
-        ctx.font = 'bold 11px Gotham';
+        ctx.font = 'bold 22px Arial';
         ctx.textAlign = 'left';
         ctx.fillText(nome.toUpperCase(), 470, 55);
 
         // Data de nascimento e sexo
-        ctx.font = 'bold 10px Gotham';
+        ctx.font = 'bold 20px Arial';
         ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 470, 80);
         ctx.fillText(`Sexo: ${sexo}`, 675, 80);
 
         // Número CNS maior
-        ctx.font = 'bold 26px Gotham';
+        ctx.font = 'bold 52px Arial';
         ctx.textAlign = 'center';
         const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1   $2   $3   $4");
         ctx.fillText(cnsFormatado, 595, 105);
@@ -392,10 +393,10 @@
       });
       
       // Converter o canvas para imagem
-      const imgData = canvas.toDataURL('image/png', 20);
+      const imgData = canvas.toDataURL('image/png');
       
       // Adicionar a imagem ao PDF
-      pdf.addImage(imgData, 'PNG', 15, 10, 175, 60);
+      pdf.addImage(imgData, 'PNG', 10, 20, 190, 65);
       
       // Baixar o PDF
       pdf.save('cartao_sus.pdf');
