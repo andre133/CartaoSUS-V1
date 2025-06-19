@@ -217,6 +217,20 @@
         height: auto;
       }
     }
+    <html>
+<head>
+  <title>Coordenadas do Mouse</title>
+</head>
+<body>
+  <h1>Movimente o mouse</h1>
+  <p id="coords">X: 0, Y: 0</p>
+
+  <script>
+    document.addEventListener('mousemove', function(event) {
+      document.getElementById('coords').textContent =
+        `X: ${event.clientX}, Y: ${event.clientY}`;
+    });
+  </script>
   </style>
 </head>
 <body>
