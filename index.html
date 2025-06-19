@@ -217,20 +217,6 @@
         height: auto;
       }
     }
-    <html>
-<head>
-  <title>Coordenadas do Mouse</title>
-</head>
-<body>
-  <h1>Movimente o mouse</h1>
-  <p id="coords">X: 0, Y: 0</p>
-
-  <script>
-    document.addEventListener('mousemove', function(event) {
-      document.getElementById('coords').textContent =
-        `X: ${event.clientX}, Y: ${event.clientY}`;
-    });
-  </script>
   </style>
 </head>
 <body>
@@ -351,7 +337,7 @@
         // Nome digitado
         ctx.font = 'bold 22px Arial';
         ctx.textAlign = 'left';
-        ctx.fillText(nome.toUpperCase(), 1020, 355);
+        ctx.fillText(nome.toUpperCase(), 1067, 243);
 
         // Data de nascimento e sexo
         ctx.font = 'bold 20px Arial';
