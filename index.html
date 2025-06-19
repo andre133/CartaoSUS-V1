@@ -228,25 +228,39 @@
   
   <div class="container">
     <div class="formulario">
-      <div class="form-group">
+     <div class="form-group">
   <label for="nome">Nome do beneficiário</label>
-  <input type="text" id="nome" placeholder="Nome completo" required oninput="abreviarNome(this)">
+  <input type="text" id="nome" placeholder="Nome completo" required oninput="ajustarNome(this)">
 </div>
 
 <script>
-  function abreviarNome(input) {
-    const nomeOriginal = input.value;
-    if (nomeOriginal.length > 35) {
-      const partes = nomeOriginal.trim().split(" ");
-      if (partes.length > 1) {
-        const primeiro = partes.shift(); // primeiro nome
-        const ultimo = partes.pop();     // último nome
-        const iniciais = partes.map(p => p.charAt(0) + ".").join(" ");
-        input.value = [primeiro, iniciais, ultimo].filter(Boolean).join(" ");
-      }
+  function ajustarNome(input) {
+    const nomeOriginal = input.value.trim();
+    if (nomeOriginal.length <= 35) return;
+
+    let partes = nomeOriginal.split(" ");
+    if (partes.length < 2) {
+      input.value = nomeOriginal.slice(0, 35);
+      return;
     }
+
+    const primeiro = partes[0];
+    const ultimo = partes[partes.length - 1];
+    let meio = partes.slice(1, -1);
+
+    while (`${primeiro} ${meio.join(" ")} ${ultimo}`.length > 35 && meio.length > 0) {
+      meio.pop(); // remove nomes do meio, um por um
+    }
+
+    let nomeFinal = [primeiro, ...meio, ultimo].join(" ");
+    if (nomeFinal.length > 35) {
+      nomeFinal = nomeFinal.slice(0, 35);
+    }
+
+    input.value = nomeFinal;
   }
 </script>
+
 
       
       <div class="form-group">
