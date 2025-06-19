@@ -296,14 +296,14 @@
     async function gerarCartao() {
       let nome = document.getElementById('nome').value.trim();
 
-// Se o nome tiver mais de 35 caracteres, abreviar
 if (nome.length > 35) {
   const partes = nome.split(' ');
-  if (partes.length > 2) {
-    // Mantém o primeiro e último nome, abrevia os do meio
-    nome = partes[0] + ' ' + 
-           partes.slice(1, -1).map(p => p[0] + '.').join(' ') + ' ' + 
-           partes[partes.length - 1];
+  if (partes.length > 3) {
+    // Mantém o primeiro nome e os dois últimos, abrevia os do meio
+    const primeiro = partes[0];
+    const ultimos = partes.slice(-2).join(' ');
+    const doMeio = partes.slice(1, -2).map(p => p[0] + '.').join(' ');
+    nome = `${primeiro} ${doMeio} ${ultimos}`;
   }
 }
       const data = document.getElementById('data').value;
