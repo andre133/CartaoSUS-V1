@@ -346,17 +346,17 @@ if (nome.length > 35) {
         ctx.fillStyle = 'black';
 
         // Nome digitado
-        ctx.font = 'bold 22px Arial';
+        ctx.font = 'bold 22px Gotham';
         ctx.textAlign = 'left';
         ctx.fillText(nome.toUpperCase(), 920, 110);
 
         // Data de nascimento e sexo
-        ctx.font = 'bold 20px Arial';
+        ctx.font = 'bold 20px Gotham';
         ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 920, 180);
         ctx.fillText(`Sexo: ${sexo}`, 1350, 180);
 
         // Número CNS maior
-        ctx.font = 'bold 52px Arial';
+        ctx.font = 'bold 52px Gotham';
         ctx.textAlign = 'center';
         const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1  $2  $3  $4");
         ctx.fillText(cnsFormatado, 1180, 245);
