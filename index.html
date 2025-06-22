@@ -348,18 +348,18 @@ if (nome.length > 35) {
         // Nome digitado
         ctx.font = 'bold 22px Gotham';
         ctx.textAlign = 'left';
-        ctx.fillText(nome.toUpperCase(), 920, 145);
+        ctx.fillText(nome.toUpperCase(), 940, 145);
 
         // Data de nascimento e sexo
         ctx.font = 'bold 22px Gotham';
-        ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 920, 200);
-        ctx.fillText(`Sexo: ${sexo}`, 1350, 200);
+        ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 940, 200);
+        ctx.fillText(`Sexo: ${sexo}`, 1370, 200);
 
         // Número CNS maior
         ctx.font = 'bold 52px Gotham';
         ctx.textAlign = 'center';
         const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1   $2   $3   $4");
-        ctx.fillText(cnsFormatado, 1180, 265);
+        ctx.fillText(cnsFormatado, 1200, 265);
 
         // Código de barras
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -380,7 +380,7 @@ if (nome.length > 35) {
           imgBarra.onload = resolve;
         });
         
-        ctx.drawImage(imgBarra, 923, 285);
+        ctx.drawImage(imgBarra, 943, 285);
         
         // Habilitar botão de download
         document.getElementById('downloadPDF').disabled = false;
