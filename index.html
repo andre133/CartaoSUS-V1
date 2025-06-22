@@ -352,11 +352,11 @@ if (nome.length > 35) {
 
         // Data de nascimento e sexo
         ctx.font = 'bold 22px Courier New';
-        ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 940, 200);
-        ctx.fillText(`Sexo: ${sexo}`, 1370, 200);
+        ctx.fillText(`Data Nasc.: ${data.split('-').reverse().join('/')}`, 940, 210);
+        ctx.fillText(`Sexo: ${sexo}`, 1350, 210);
 
         // Número CNS maior
-        ctx.font = 'bold 45px Courier New';
+        ctx.font = 'bold 49px Courier New';
         ctx.textAlign = 'center';
         const cnsFormatado = cns.replace(/(.{3})(.{4})(.{4})(.{4})/, "$1 $2 $3 $4");
         ctx.fillText(cnsFormatado, 1200, 265);
@@ -366,7 +366,7 @@ if (nome.length > 35) {
         JsBarcode(svg, cns, {
           format: "CODE128",
           width: 3.85,
-          height: 70,
+          height: 60,
           displayValue: false,
           margin: 0
         });
